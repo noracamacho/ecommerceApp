@@ -9,7 +9,7 @@ cartRouter.route('/') // /cart
     .post(verifyJWT, create);
 
 cartRouter.route('/:id') //cart/:id
-    // .get(getOne)
+    .get(verifyJWT, getOne)
     .delete(verifyJWT, remove)
     .put(verifyJWT, update);
 
