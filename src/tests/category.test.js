@@ -50,7 +50,7 @@ test('PUT /categories/:id should update category', async () => {
 // Get one category
 // N/A
 
-// Delete Category
+// Delete Category test
 test('DELETE /categories/:id should delete category', async () => {
     const res = await request(app)
         .delete(`/categories/${categoryId}`)

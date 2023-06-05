@@ -12,7 +12,13 @@ const getAll = catchError(async(req, res) => {
 });
 
 const create = catchError(async(req, res) => {
-    const result = await Cart.create(req.body);
+    const { productId, quantity } = req.body;
+    const userId = req.user.id;
+    const result = await Cart.create({
+        productId,
+        quantity,
+        userId
+    });
     return res.status(201).json(result);
 });
 
@@ -29,10 +35,12 @@ const remove = catchError(async(req, res) => {
     return res.sendStatus(204);
 });
 
+// Update Cart product's quantity
 const update = catchError(async(req, res) => {
     const { id } = req.params;
+    const { quantity } = req.body;
     const result = await Cart.update(
-        req.body,
+        { quantity },
         { where: {id}, returning: true }
     );
     if(result[0] === 0) return res.sendStatus(404);

@@ -4,6 +4,7 @@ require('../models/User');
 require('../models/Category');
 require('../models/Product');
 require('../models/ProductImg');
+require('../models/Cart');
 require('../models');
 
 const main = async() => {
@@ -19,7 +20,7 @@ const main = async() => {
             email: "testUser@gmail.com",
             password: "testUser123",
             phone: "5555555555"
-        })
+        });
         
         process.exit();
     } catch(error){

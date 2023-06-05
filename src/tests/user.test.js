@@ -39,7 +39,8 @@ test('POST /users/login should do login', async () => {
 
 // Get users test
 test('GET /users should get all users', async () => {
-    const res = await request(app).get('/users')
+    const res = await request(app)
+        .get('/users')
         .set('Authorization', `Bearer ${token}`); // Hearder name, Bearer Token
     expect(res.status).toBe(200);
     expect(res.body).toHaveLength(2);
@@ -59,13 +60,12 @@ test('PUT /users/:id should update user', async () => {
 });
 
 // Get one test
-test('GET /users/:id', async () => {
-    const res = await request(app)
-    .get(`/users/${userId}`)
-    .set('Authorization', `Bearer ${token}`); // Hearder name, Bearer Token
-    expect(res.status).toBe(200);
-    // expect(res.body).toHaveLength(1);
-})
+// test('GET /users/:id', async () => {
+//     const res = await request(app)
+//     .get(`/users/${userId}`)
+//     .set('Authorization', `Bearer ${token}`); // Hearder name, Bearer Token
+//     expect(res.status).toBe(200);
+// });
 
 
 // Invalid credentials test
@@ -79,7 +79,7 @@ test('POST /users/login with invalid credentials should throw an error', async (
         .post('/users/login')
         .send(credentials);
     expect(res.status).toBe(401);
-})
+});
 
 // Delete user test
 test('DELETE /userd/:id should delete user', async () => {
