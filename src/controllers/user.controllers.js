@@ -57,11 +57,22 @@ const login = catchError(async(req, res) => {
     return res.json({ user, token }); //return user and token 
 });
 
+// logged user
+// Access logged user
+const getLoggedUser = catchError(async(req, res) => {
+    // Only returns information on protected endpoints -> req.user
+    // If the endpoint is not protected req.user will return undefined
+    const user = req.user;
+    return res.json(user)
+});
+
+// https://ecommerceapp-verv.onrender.com
 module.exports = {
     getAll,
     create,
     getOne,
     remove,
     update,
-    login
+    login,
+    getLoggedUser
 }
