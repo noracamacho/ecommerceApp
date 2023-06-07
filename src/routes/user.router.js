@@ -1,4 +1,4 @@
-const { getAll, create, getOne, remove, update, login, getLoggedUser } = require('../controllers/user.controllers');
+const { getAll, create, remove, update, login, getLoggedUser } = require('../controllers/user.controllers');
 const express = require('express');
 const verifyJWT = require('../utils/verifyJWT');
 
@@ -16,7 +16,6 @@ userRouter.route('/login')// /users/login
     .post(login);
 
 userRouter.route('/:id') // /users/:id
-    // .get(verifyJWT, getOne)
     .delete(verifyJWT, remove)
     .put(verifyJWT, update);
 
