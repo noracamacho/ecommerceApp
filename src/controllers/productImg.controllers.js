@@ -4,8 +4,8 @@ const ProductImg = require('../models/ProductImg');
 const { uploadToCloudinary, deleteFromCloudinary } = require('../utils/cloudinary');
 
 const getAll = catchError(async(req, res) => {
-    const productImgs = await ProductImg.findAll();
-    return res.json(productImgs)
+    const productImg = await ProductImg.findAll();
+    return res.json(productImg);
 });
 
 const create = catchError(async(req, res) => {

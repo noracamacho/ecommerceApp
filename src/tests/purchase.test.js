@@ -2,11 +2,12 @@ const request = require('supertest');
 const app = require('../app');
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
-const { raw } = require('express');
 const Category = require('../models/Category');
+const { raw } = require('express');
+const Purchase = require('../models/Purchase');
 require('../models');
 
-let purchaseId;
+// let purchaseId;
 let token;
 let userId;
 
@@ -40,18 +41,23 @@ test('POST /purchases should create purchases', async () => {
         productId: cart.productId,
         quantity: cart.quantity
     }
-
+    // Validate that the putchase was made
     const res = await request(app)
         .post('/purchases')
         .send(purchase)
         .set('Authorization', `Bearer ${token}`); // Hearder name, Bearer Token
-    await product.destroy();
-    await category.destroy();
-    expect(res.status).toBe(200);
-    // expect(res.body[0].id).toBeDefined();
+    expect(res.body[0].quantity).toBe(4);
     expect(res.body).toHaveLength(1);
 
-})
+    // Validate that cart is empty
+    const resCart = await request(app)
+        .get('/cart')
+        .set('Authorization', `Bearer ${token}`); // Hearder name, Bearer Token
+    expect(resCart.status).toBe(200);
+    expect(resCart.body).toHaveLength(0);
+    await product.destroy();
+    await category.destroy();
+});
 
 // Get All Purchases test
 test('GET /purchases should get all purchases', async () => {
@@ -60,4 +66,5 @@ test('GET /purchases should get all purchases', async () => {
         .set('Authorization', `Bearer ${token}`); // Hearder name, Bearer Token
     expect(res.status).toBe(200);
     expect(res.body).toHaveLength(1);
+    await request(app).delete('/purchases');
 });

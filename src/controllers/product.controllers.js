@@ -2,10 +2,18 @@ const catchError = require('../utils/catchError');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 const ProductImg = require('../models/ProductImg');
+const { Op } = require("sequelize");
 
 const getAll = catchError(async(req, res) => {
+    const { title, categoryId } = req.query;
+    // Making queries optional
+    // If title or category query exists then products are filtered
+    const where = {};
+    if(title) where.title = {[Op.iLike]:`%${title}%`};
+    if(categoryId) where.categoryId = categoryId
     const results = await Product.findAll({
-        include: [Category, ProductImg]
+        include: [ Category, ProductImg ],
+        where: where
     });
     return res.json(results);
 });
@@ -17,7 +25,7 @@ const create = catchError(async(req, res) => {
 
 const getOne = catchError(async(req, res) => {
     const { id } = req.params;
-    const result = await Product.findByPk(id);
+    const result = await Product.findByPk(id, { include: [Category, ProductImg]});
     if(!result) return res.sendStatus(404);
     return res.json(result);
 });
